@@ -39,3 +39,8 @@ exports.addUser = (username, age, phone) => {
         phone
     })
 };
+
+// 添加新用户
+exports.getUsers = async (username, age, phone) => {
+  return User.findAll();
+};

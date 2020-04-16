@@ -50,7 +50,7 @@ Mock.Random.extend({
   }
 });
 
-const url = "http://localhost:3000/register";
+const url = "http://localhost:3000/";
 export default {
   name: "Home",
   data() {
@@ -92,13 +92,34 @@ export default {
       }
     };
   },
+  mounted() {
+    this.getUsers();
+  },
   methods: {
+    getUsers() {
+      axios.get(url + 'users').then(res => {
+        console.log(' users  --> ', res.data);
+      })
+    },
+    // eslint-disable-next-line no-unused-vars
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      axios
+        .post(url + 'register', {
+          username: Mock.Random.name(),
+          age: Mock.Random.integer(1, 40),
+          phone: Mock.Random.phone()
+        })
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      /*this.$refs[formName].validate(valid => {
         if (valid) {
           console.log("submit! ", this.userForm);
           axios
-            .post(url, {
+            .post(url + 'register', {
               username: Mock.Random.name(),
               age: Mock.Random.integer(1, 40),
               phone: Mock.Random.phone()
@@ -113,7 +134,7 @@ export default {
           console.log("error submit!!");
           return false;
         }
-      });
+      });*/
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();

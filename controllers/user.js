@@ -36,8 +36,22 @@ const register = async (ctx) => {
     }
 };
 
+const users = async (ctx) => {
+  try {
+    const res = await User.getUsers();
+    console.log(' ctrl users --> ', res);
+    // 返回结果
+    ctx.response.status = 200;
+    ctx.body = res;
+  } catch (e) {
+    // 返回结果
+    ctx.response.status = 500;
+    ctx.body = 'get users failed' + e;
+  }
+}
 
 module.exports = {
     login,
-    register
+    register,
+    users
 };

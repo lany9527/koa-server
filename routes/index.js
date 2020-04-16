@@ -10,7 +10,7 @@ router.get('/', async (ctx, next) => {
 router.post('/register', UserController.register);
 // 用户登录
 router.post('/login', UserController.login);
-// 查询用户信息
-// router.get('/userInfo', UserController.userInfo);
+// 查询用户列表
+router.get('/users', UserController.users);
 
 module.exports = router;

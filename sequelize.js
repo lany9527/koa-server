@@ -5,10 +5,9 @@ const Sequelize = require('sequelize');
  * username
  * pwd
  */
-const sequelize = new Sequelize('blog', 'root', '123456', {
+const sequelize = new Sequelize('blog', 'root', 'root', {
     host: 'localhost',
     dialect: 'mysql', // 数据库类型
-    operatorsAliases: false,
     timezone: '+08:00', //东八时区
     pool: {
         max: 5,
