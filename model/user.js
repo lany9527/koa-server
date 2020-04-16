@@ -40,7 +40,13 @@ exports.addUser = (username, age, phone) => {
     })
 };
 
-// 添加新用户
+// 获取所有用户
 exports.getUsers = async (username, age, phone) => {
   return User.findAll();
+};
+
+// 获取特定用户
+exports.getUser = async (username) => {
+  console.log(' 获取特定用户 --> ', username);
+  return User.findOne({ where: { username }});
 };

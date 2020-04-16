@@ -28,9 +28,8 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('userForm')"
-              >提交</el-button
-            >
+            <el-button type="primary" @click="submitForm('userForm')">注册</el-button>
+            <el-button type="primary" @click="login('userForm')">登录</el-button>
             <el-button @click="resetForm('userForm')">重置</el-button>
           </el-form-item>
         </el-form>
@@ -103,6 +102,22 @@ export default {
     },
     // eslint-disable-next-line no-unused-vars
     submitForm(formName) {
+      /*setInterval(() => {
+        axios
+          .post(url + 'register', {
+            username: Mock.Random.name(),
+            age: Mock.Random.integer(1, 40),
+            phone: Mock.Random.phone()
+          })
+          .then(function(response) {
+            console.log(response);
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }, Mock.Random.integer(1, 40) * 1000);*/
+
+
       axios
         .post(url + 'register', {
           username: Mock.Random.name(),
@@ -115,6 +130,7 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+
       /*this.$refs[formName].validate(valid => {
         if (valid) {
           console.log("submit! ", this.userForm);
@@ -136,6 +152,20 @@ export default {
         }
       });*/
     },
+
+    login() {
+      axios
+        .post(url + 'login', {
+          username: "Lisa Lee"
+        })
+        .then(function(response) {
+          console.log('login ok ', response);
+        })
+        .catch(function(error) {
+          console.log('login error ', error);
+        });
+    },
+
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }

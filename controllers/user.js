@@ -10,18 +10,41 @@ const secret = 'LanYang9527';
 const generate = (userInfo) => {
   return jwt.sign(userInfo, secret, {expiresIn: '24h'})  //token签名 有效期为1小时
 };
-
+// https://juejin.im/post/5a1ae1cdf265da431d3c6337
+// https://segmentfault.com/a/1190000014727547
 const login = async (ctx) => {
-    let userToken = {
-        name: 'kenan'
-    };
-    const token = generate(userToken);
-    // console.log('*** login ctrl ***> ', token);
-    ctx.body = {
-        message: '获取token成功',
-        code: 200,
-        token
+  console.log('*** login 111 ***> ', ctx.request.body);
+  const { username } = ctx.request.body;
+  try {
+    const user = await User.getUser(username);
+    console.log('*** login 222 ***> ', user);
+    if (!user) {
+      ctx.status = 401;
+      ctx.body = {
+        ok: false,
+        msg: '用户名错误',
+      };
+    } else {
+      const token = generate({ username });
+      // console.log('*** login ctrl ***> ', token);
+      ctx.status = 200
+      ctx.body = {
+        ok: true,
+        msg: '登录成功',
+        token,
+        data: {
+          username
+        }
+      }
     }
+  } catch (e) {
+    ctx.status = 500
+    ctx.body = {
+      ok: false,
+      msg: '登录失败',
+    }
+  }
+
 };
 
 const register = async (ctx) => {
