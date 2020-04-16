@@ -5,13 +5,17 @@ const jwt = require('jsonwebtoken')
 const jwtKoa = require('koa-jwt')
 const util = require('util')
 const verify = util.promisify(jwt.verify) // 解密
-const secret = 'jwt demo';
+const secret = 'LanYang9527';
+
+const generate = (userInfo) => {
+  return jwt.sign(userInfo, secret, {expiresIn: '24h'})  //token签名 有效期为1小时
+};
 
 const login = async (ctx) => {
     let userToken = {
         name: 'kenan'
     };
-    const token = jwt.sign(userToken, secret, {expiresIn: '24h'})  //token签名 有效期为1小时
+    const token = generate(userToken);
     // console.log('*** login ctrl ***> ', token);
     ctx.body = {
         message: '获取token成功',
@@ -28,11 +32,19 @@ const register = async (ctx) => {
         const res = await User.addUser(username, age, phone);
         // 返回结果
         ctx.response.status = 200;
-        ctx.body = res;
+        ctx.body = {
+          ok: true,
+          msg: '注册成功',
+          token: generate({ username }),
+          data: res
+        };
     } catch (e) {
         // 返回结果
         ctx.response.status = 500;
-        ctx.body = 'register failed' + e;
+        ctx.body = {
+          ok: false,
+          msg: '注册失败' + '|' + e
+        }
     }
 };
 
